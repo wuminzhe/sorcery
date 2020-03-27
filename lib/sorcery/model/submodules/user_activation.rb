@@ -73,6 +73,8 @@ module Sorcery
           # This submodule requires the developer to define his own mailer class to be used by it
           # when activation_mailer_disabled is false
           def validate_mailer_defined
+            puts '=fuck===================='
+            puts @sorcery_config.inspect
             message = 'To use user_activation submodule, you must define a mailer (config.user_activation_mailer = YourMailerClass).'
             raise ArgumentError, message if @sorcery_config.user_activation_mailer.nil? && @sorcery_config.activation_mailer_disabled == false
           end
