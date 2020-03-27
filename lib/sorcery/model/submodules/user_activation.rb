@@ -126,7 +126,8 @@ module Sorcery
           def send_activation_needed_email?
             !external? &&
               !(sorcery_config.activation_needed_email_method_name.nil? || sorcery_config.activation_mailer_disabled == true) &&
-              !skip_activation_needed_email
+              !skip_activation_needed_email &&
+              self.send(sorcery_config.email_attribute_name).present?
           end
 
           def prevent_non_active_login
