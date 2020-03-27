@@ -43,7 +43,7 @@ module Sorcery
 
           base.class_eval do
             # don't setup activation if no password supplied - this user is created automatically
-            sorcery_adapter.define_callback :before, :create, :setup_activation, if: proc { |user| user.send(sorcery_config.password_attribute_name).present? }
+            sorcery_adapter.define_callback :before, :create, :setup_activation, if: proc { |user| user.send(sorcery_config.password_attribute_name).present? && user.send(sorcery_config.email_attribute_name).present? }
             # don't send activation needed email if no crypted password created - this user is external (OAuth etc.)
             sorcery_adapter.define_callback :after, :commit, :send_activation_needed_email!, on: :create, if: :send_activation_needed_email?
           end
@@ -73,8 +73,6 @@ module Sorcery
           # This submodule requires the developer to define his own mailer class to be used by it
           # when activation_mailer_disabled is false
           def validate_mailer_defined
-            puts '=fuck===================='
-            puts @sorcery_config.inspect
             message = 'To use user_activation submodule, you must define a mailer (config.user_activation_mailer = YourMailerClass).'
             raise ArgumentError, message if @sorcery_config.user_activation_mailer.nil? && @sorcery_config.activation_mailer_disabled == false
           end
