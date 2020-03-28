@@ -189,6 +189,7 @@ module Sorcery
             sorcery_fetch_user_hash provider_name
             # config = user_class.sorcery_config # TODO: Unused, remove?
 
+            puts @user_hash
             attrs = user_attrs(@provider.user_info_mapping, @user_hash)
             @user = user_class.create_from_provider(provider_name, @user_hash[:uid], attrs, &block)
           end
